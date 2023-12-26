@@ -9,14 +9,25 @@ import {
   Author,
 } from "../styles/SInglePost.styled";
 import { format } from "timeago.js";
+import { useNavigate } from "react-router-dom";
 
 function SinglePost() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   // fetches the single post according to id from database..
   async function fetchBlog() {
     const res = await axios.get(`http://localhost:8001/api/user/blogs/${id}`);
     return res.data;
+  }
+
+  async function handleDeleteBlog() {
+    const res = await axios.delete(
+      `http://localhost:8001/api/user/blogs/${id}`
+    );
+    if (res.data.success == true) {
+      navigate("/");
+    }
   }
 
   const { data, error } = useQuery(`blog`, fetchBlog);
@@ -26,8 +37,8 @@ function SinglePost() {
       <div>
         <div>
           <Heading>
-            <h1>{data.title}</h1>
-            <p>{data.summary}</p>
+            <h1>{data.blog.title}</h1>
+            <p>{data.blog.summary}</p>
           </Heading>
           <div>
             <Img
@@ -39,6 +50,11 @@ function SinglePost() {
           <Content>
             <div dangerouslySetInnerHTML={{ __html: data.blog.content }} />
           </Content>
+          {/* delete Button */}
+          <div>
+            <button onClick={handleDeleteBlog}>Delete Blog</button>
+          </div>
+
           <hr />
           <Author>
             <h3>Author: {data.blog.author.username.toUpperCase()}</h3>
@@ -47,6 +63,7 @@ function SinglePost() {
           </Author>
         </div>
       </div>
+      <div></div>
     </Container>
   ) : (
     <h1>{error}</h1>

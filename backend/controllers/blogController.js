@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Blog = require("../models/blogModel.js");
 const User = require("../models/usersModel.js");
 
@@ -91,4 +92,24 @@ async function getSingleBlog(req, res) {
   return res.json({ blog: { ...rest } });
 }
 
-module.exports = { handleBlogPost, getBlogs, getSingleBlog };
+// remove the single blog post + reference to the user.
+async function removeBlog(req, res) {
+  const { id } = req.params;
+
+  try {
+    const findBlog = await Blog.findById(id);
+    if (findBlog) {
+      await Blog.findByIdAndDelete(id);
+      await User.updateOne(
+        { blogs: findBlog._id },
+        { $pull: { blogs: findBlog._id } }
+      );
+    }
+  } catch (err) {
+    console.log(err.message);
+    return res.json({ msg: "Blog not found", success: false });
+  }
+  res.json({ msg: "Successfully deleted", success: true });
+}
+
+module.exports = { handleBlogPost, getBlogs, getSingleBlog, removeBlog };

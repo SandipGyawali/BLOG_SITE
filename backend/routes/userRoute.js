@@ -3,6 +3,7 @@ const {
   handleBlogPost,
   getBlogs,
   getSingleBlog,
+  removeBlog,
 } = require("../controllers/blogController.js");
 const {
   handleLogin,
@@ -18,6 +19,6 @@ router.post("/login", handleLogin);
 router.post("/signup", handleSignUp);
 router.post("/blog", restricted, upload.single("photo"), handleBlogPost);
 router.get("/blogs", getBlogs);
-router.get("/blogs/:id", getSingleBlog);
+router.route("/blogs/:id").get(getSingleBlog).delete(removeBlog);
 
 module.exports = router;
