@@ -7,13 +7,17 @@ import {
   Heading,
   Img,
   Author,
+  ModifyBtn,
 } from "../styles/SInglePost.styled";
 import { format } from "timeago.js";
 import { useNavigate } from "react-router-dom";
+import { SingleBlogContext } from "../../contexts/singleBlog";
+import { useContext } from "react";
 
 function SinglePost() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { setSingleBlog } = useContext(SingleBlogContext);
 
   // fetches the single post according to id from database..
   async function fetchBlog() {
@@ -21,12 +25,23 @@ function SinglePost() {
     return res.data;
   }
 
+  // handle delete method.
   async function handleDeleteBlog() {
     const res = await axios.delete(
       `http://localhost:8001/api/user/blogs/${id}`
     );
     if (res.data.success == true) {
       navigate("/");
+    }
+  }
+
+  // handle update method.
+  async function handleUpdateBlogFetch() {
+    const res = await axios.get(`http://localhost:8001/api/user/blogs/${id}`);
+
+    if (res.data.blog.success) {
+      setSingleBlog(res.data);
+      navigate("/editBlog");
     }
   }
 
@@ -51,9 +66,10 @@ function SinglePost() {
             <div dangerouslySetInnerHTML={{ __html: data.blog.content }} />
           </Content>
           {/* delete Button */}
-          <div>
+          <ModifyBtn>
             <button onClick={handleDeleteBlog}>Delete Blog</button>
-          </div>
+            <button onClick={handleUpdateBlogFetch}>Update Blog</button>
+          </ModifyBtn>
 
           <hr />
           <Author>

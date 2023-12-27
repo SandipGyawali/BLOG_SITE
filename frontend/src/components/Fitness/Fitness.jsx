@@ -16,7 +16,6 @@ function Fitness() {
 
   // filtering the blogs with travel category
   const result = data.blogs.filter((res) => res.category == "fitness");
-  console.log(result);
 
   return (
     <div>

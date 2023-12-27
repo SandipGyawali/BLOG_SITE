@@ -46,3 +46,29 @@ export const Content = styled.div`
 export const Author = styled.div`
   margin-top: 50px;
 `;
+
+export const ModifyBtn = styled.div`
+  background-color: #090d1f;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+
+  button {
+    margin: 0px 5px;
+    max-width: 120px;
+    height: 45px;
+    border-radius: 25px;
+    border: 2px solid #ff4742;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    padding: 0px 10px;
+
+    &:hover {
+      background-color: #ff4742;
+      transition: 0.3s ease;
+    }
+  }
+`;

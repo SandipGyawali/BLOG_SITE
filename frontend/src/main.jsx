@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Header from "./components/Nav/Header.jsx";
 import { UserContextProvider } from "./contexts/UserContext.jsx";
+import { SingleBlogContextProvider } from "./contexts/singleBlog.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,12 +22,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <UserContextProvider>
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path="/*" element={<App />} />
-          </Routes>
-        </BrowserRouter>
+        <SingleBlogContextProvider>
+          <BrowserRouter>
+            <Header />
+            <Routes>
+              <Route path="/*" element={<App />} />
+            </Routes>
+          </BrowserRouter>
+        </SingleBlogContextProvider>
       </UserContextProvider>
     </QueryClientProvider>
   </React.StrictMode>

@@ -2,6 +2,11 @@ const { default: mongoose } = require("mongoose");
 const Blog = require("../models/blogModel.js");
 const User = require("../models/usersModel.js");
 
+// convert the binary data to the base64 format
+function imageBase64(data) {
+  return Buffer.from(data).toString("base64");
+}
+
 async function handleBlogPost(req, res) {
   const { title, summary, content, category } = req.body;
   const { id } = req.user;
@@ -51,7 +56,8 @@ async function getBlogs(req, res) {
         "-password"
       );
 
-      const base64Data = Buffer.from(blog.photo.data).toString("base64");
+      const base64Data = imageBase64(blog.photo.data);
+      // Buffer.from(blog.photo.data).toString("base64");
       rest.photo.data = base64Data;
       rest.author = user_author;
       return rest;
@@ -78,7 +84,8 @@ async function getSingleBlog(req, res) {
   const { _doc: rest } = blog;
 
   // convert the binary image data to base64 data.
-  const base64Data = Buffer.from(rest.photo.data).toString("base64");
+  const base64Data = imageBase64(rest.photo.data);
+  // Buffer.from(rest.photo.data).toString("base64");
 
   // change the binary data to the base64..
   rest.photo.data = base64Data;
@@ -88,6 +95,7 @@ async function getSingleBlog(req, res) {
   const author = await User.findById(rest.author).select("-password");
   // overrides the author key to the value of the actual author data.
   rest.author = author;
+  rest.success = true;
 
   return res.json({ blog: { ...rest } });
 }
@@ -112,4 +120,44 @@ async function removeBlog(req, res) {
   res.json({ msg: "Successfully deleted", success: true });
 }
 
-module.exports = { handleBlogPost, getBlogs, getSingleBlog, removeBlog };
+async function updateBlog(req, res) {
+  const { id } = req.params;
+  const { title, summary, content } = req.body;
+
+  // check for the field whether they are empty of not.
+  if (!title && !summary && !content) {
+    return res.json({ err: true });
+  }
+
+  // find the blog with the specific id in the database.
+  const blog = await Blog.findById({ _id: id });
+  // check whether the blog exists or not .
+  if (!blog) {
+    return res.json({
+      msg: "The blog doesn't exist",
+      err: true,
+    });
+  }
+  // add the success key value for checking in the frontend.
+  const updatedBlog = { ...blog._doc, success: true };
+  updatedBlog.title = title;
+  updatedBlog.summary = summary;
+  updatedBlog.content = content;
+
+  try {
+    // update the blog
+    await Blog.updateOne(blog, updatedBlog);
+  } catch (err) {
+    console.log(err.message);
+  }
+
+  res.json(updatedBlog);
+}
+
+module.exports = {
+  handleBlogPost,
+  getBlogs,
+  getSingleBlog,
+  removeBlog,
+  updateBlog,
+};

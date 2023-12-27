@@ -8,6 +8,7 @@ import SinglePost from "./components/Post/SinglePost";
 import Finance from "./components/Finance/Finance";
 import Fitness from "./components/Fitness/Fitness";
 import Travel from "./components/Travel/Travel";
+import EditBlogForm from "./components/Blog/EditBlogForm";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/blog" element={<BlogForm />} />
+          <Route path="/editBlog" element={<EditBlogForm />} />
           <Route path="/finance" element={<Finance />} />
           <Route path="/travel" element={<Travel />} />
           <Route path="/fitness" element={<Fitness />} />
