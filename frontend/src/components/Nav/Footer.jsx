@@ -9,6 +9,7 @@ import {
 const Footer = () => {
   return (
     <FooterContainer>
+      <hr />
       <FooterLogo>QuillQuest</FooterLogo>
       <SocialIconsContainer>
         <i className="fa fa-facebook" />

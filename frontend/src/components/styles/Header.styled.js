@@ -97,6 +97,10 @@ export const ToggleBtn = styled.button`
     text-decoration: none;
   }
 
+  @media (max-width: 640px) {
+    margin: 0 auto;
+  }
+
   @media (max-width: 450px) {
     margin: 0 auto;
   }

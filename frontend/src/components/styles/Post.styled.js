@@ -80,12 +80,10 @@ export const Box = styled.div`
 // list section.
 export const ListContainer = styled.div`
   font-size: 30px;
-  /* background-color: lightcoral; */
   margin: 50px 20%;
   display: flex;
   img {
     width: 430px;
-    height: auto;
     max-height: 300px;
     object-fit: cover;
     border-radius: 10px;
@@ -100,15 +98,83 @@ export const ListContainer = styled.div`
   }
   p {
     font-size: 18px;
-    padding-top: 5px;
+  }
+
+  @media (max-width: 1600px) {
+    h1 {
+      font-size: 30px;
+    }
+    p {
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 1415px) {
+    h1 {
+      font-size: 26px;
+    }
+    p {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 1300px) {
+    display: block;
+    h1 p {
+      text-align: start;
+    }
+    img {
+      text-align: center;
+      width: 600px;
+    }
+  }
+
+  @media (max-width: 942px) {
+    img {
+      width: 500px;
+    }
+  }
+
+  @media (max-width: 800px) {
+    img {
+      width: 400px;
+    }
+
+    h1 {
+      text-align: start;
+      font-size: 22px;
+    }
+    p {
+      text-align: start;
+      font-size: 12px;
+    }
   }
 `;
 
 export const ListContent = styled.div`
   margin-left: 20px;
+  overflow: hidden;
+
+  @media (max-width: 1300px) {
+    text-align: center;
+    width: 600px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 942px) {
+    width: 500px;
+  }
+
+  @media (max-width: 800px) {
+    width: 400px;
+  }
 `;
 
 export const ImgWrapper = styled.div`
   margin: 0;
   padding: 0;
+
+  @media (max-width: 1300px) and (min-width: 300px) {
+    text-align: center;
+  }
 `;

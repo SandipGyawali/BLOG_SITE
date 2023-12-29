@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Header from "./components/Nav/Header.jsx";
 import { UserContextProvider } from "./contexts/UserContext.jsx";
 import { SingleBlogContextProvider } from "./contexts/singleBlog.jsx";
+import Footer from "./components/Nav/Footer.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Routes>
               <Route path="/*" element={<App />} />
             </Routes>
+            <Footer />
           </BrowserRouter>
         </SingleBlogContextProvider>
       </UserContextProvider>
